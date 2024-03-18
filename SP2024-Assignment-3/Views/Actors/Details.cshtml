@@ -1,0 +1,139 @@
+﻿@model SP2024_Assignment_3.Models.ActorsDetailsVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<h1>Details</h1>
+
+<div>
+    <h4>Actor</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.actor.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.actor.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.actor.Gender)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.actor.Gender)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.actor.Age)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.actor.Age)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.actor.IMDB)
+        </dt>
+        <dd>
+            <a href="@Html.DisplayFor(model => model.actor.IMDB)" target="_blank">IMDB Link</a>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.actor.Photo)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.actor.Photo != null && Model.actor.Photo.Length != 0)
+            {
+                <img height="150" src="@Url.Action("GetActorPhoto", "Actors", new { id = Model.actor.Id })" alt="Actor photo" />
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.actor.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+<br />
+<h1>Movies</h1>
+<table id="moviesTable" class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                IMDB
+            </th>
+            <th>
+                Genre
+            </th>
+            <th>
+                Release Year
+            </th>
+            <th>
+                Film Poster
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.movies)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <a href="@Html.DisplayFor(modelItem => item.IMDB)" target="_blank">IMDB Link</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseYear)
+                </td>
+                <td>
+                    @if (item.IMG != null && item.IMG.Length != 0)
+                    {
+                        <img height="150" src="@Url.Action("GetMoviePhoto", "Movies", new { id = item.Id })" alt="Movie photo" />
+                    }
+                </td>
+                <td>
+
+                    <a asp-action="Details" asp-controller="Movies" asp-route-id="@item.Id">Details</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<h1>Wikipedia Post</h1>
+<table id = "redditTable" class="table">
+    <thead>
+        <tr>
+            <th>
+                Sentiment
+            </th>
+            <th>
+                Post
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.Sentiments.Count && i < Model.Posts.Count; i++)
+        {
+            if (Model.Sentiments[i] != "0")
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => model.Sentiments[i])
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Posts[i])
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+
